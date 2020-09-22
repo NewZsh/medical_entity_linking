@@ -1,0 +1,42 @@
+<!DOCTYPE HTML PUBLIC>
+<html>
+<head>
+    <title>患者主诉实体链接标注系统</title>
+    <style>
+    p.box {width:400px; border-style:inset; border-radius:10px;}
+    </style>
+</head>
+<body>
+    <center>
+        患者问句：医生您好！我的小腹为什么这么疼？
+    </center>
+    <form name="myForm" id="myForm" onsubmit="return validateForm()">
+    <br/></center>
+</form></body>
+<script>
+    var funcGetSelectText = function(){
+        var  txt = '' ;
+        if (document.selection){
+            txt = document.selection.createRange().text; //ie
+        } else {
+            txt = document.getSelection();
+        }
+        return txt.toString();
+    }
+        
+    var container = container || document;
+    container.onmouseup = function(){
+        var txt = funcGetSelectText();
+        if (txt)
+        {
+            var form = document.getElementById("myForm");
+            var select = document.createElement("p");
+            select.classList = "box";
+            select.innerHTML = txt;
+            var br = document.createElement("br");
+            form.appendChild(select);
+            form.appendChild(br);
+        }
+    }
+</script>
+</html>
