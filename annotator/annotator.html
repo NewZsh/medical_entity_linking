@@ -6,62 +6,64 @@
 <body>
     <center>
         <!-- to do: read samples from database -->
-        患者问句：医生您好！我的小腹为什么这么疼？
+        <p id="sample">患者问句：医生您好！我的小腹为什么这么疼？</p>
+        <button id="submit">
+            submit
+        </button>
     </center>
     <form name="myForm" id="myForm" onsubmit="return validateForm()">
     </form>
 </body>
 <script>
-    var funcGetSelectText = function(){
+    var boundary = [];
+    var innerOut = [];
+    var funcGetSelectText = function(flag) {
         var txt = '';
-        if (document.selection){
-            txt = document.selection.createRange().text; //ie
-        } else {
-            txt = document.getSelection();
+        txt = document.getSelection();
+        if (flag == 0) {
+            boundary.push([txt.anchorOffset, txt.focusOffset]);
+            innerOut.push([]);
+        } else if (flag == 1) {
+            innerOut[innerOut.length - 1].push([txt.anchorOffset, txt.focusOffset]);
         }
         return txt.toString();
     }
-
         
     function del(obj) {
+        boundary.pop();
+        innerOut.pop();
         element = event.srcElement;
         delNode = element.parentNode;
         delNode.remove(element);
     }
     
-    var index = 0;
     var container = container || document;
-    container.onmouseup = function(){
-        var tagName = event.srcElement.tagName;
-        if (tagName == "CENTER") {
-            var txt = funcGetSelectText();
-            if (txt)
-            {
-                var form = document.getElementById("myForm");
-                var li = document.createElement("li");
-                form.appendChild(li);
-                li.id = index;
-                li.innerHTML = txt;
+    container.onmouseup = function() {
+        var srcElement = event.srcElement;
+        if (srcElement.tagName == "P") {
+            var txt = funcGetSelectText(0);
+            var form = document.getElementById("myForm");
+            var li = document.createElement("li");
+            form.appendChild(li);
+            li.innerHTML = txt;
 
-                var btn = document.createElement("button");
-                btn.attributes = "nowrap";
-                btn.innerHTML = "X";
-                btn.id = index;
-                btn.setAttribute("onclick", "del(this)");
-                
-                li.appendChild(btn);
-
-                index = index + 1;
+            var btn = document.createElement("button");
+            btn.innerHTML = "X";
+            btn.setAttribute("onclick", "del(this)");
+            li.appendChild(btn);
+        }
+        else if (srcElement.tagName == "LI") {
+            var txt = srcElement.innerHTML;
+            var subtxt = funcGetSelectText(1);
+            if (subtxt) {
+                txt = txt.replace(subtxt, '<font color="gray">' + subtxt + "</font>");
+                srcElement.innerHTML = txt;
             }
         }
-        else if (tagName == "LI") {
-            var element = event.srcElement;
-            var txt = element.innerHTML;
-            var subtxt = funcGetSelectText();
-            if (subtxt) {
-                txt = txt.replace(subtxt, '<font color="gray">'+subtxt+'</font>');
-                element.innerHTML = txt;
-            }
+        else if (srcElement.tagName == "BUTTON" && srcElement.id == "submit") {
+            alert(innerOut);
+            var center = document.getElementById("sample");
+            center.innerHTML = "下一个";
         }
     }
 
