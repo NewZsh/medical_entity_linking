@@ -6,7 +6,9 @@
 <body>
     <center>
         <!-- to do: read samples from database -->
-        <p id="sample">患者问句：医生您好！我的小腹为什么这么这么疼？我的胃口也不太好？</p>
+        <p id="predix">患者问句：
+        <t id="sample">医生您好！我的小腹为什么这么这么疼？我的胃口也不太好？</t>
+        </p>
         <button id="submit">
             submit
         </button>
@@ -35,8 +37,8 @@
     }
         
     function del(obj) {
-        boundary[index] = [];
-        innerOut[index] = [];
+        boundary[obj.parentNode.id] = [];
+        innerOut[obj.parentNode.id] = [];
         element = event.srcElement;
         delNode = element.parentNode;
         delNode.remove(element);
@@ -46,7 +48,7 @@
     var index = 0;
     container.onmouseup = function() {
         var srcElement = event.srcElement;
-        if (srcElement.tagName == "P") {
+        if (srcElement.tagName == "T") {
             var txt = funcGetSelectText(0, 0);
             var form = document.getElementById("myForm");
             var li = document.createElement("li");
@@ -72,7 +74,9 @@
             srcElement.innerHTML = txt;
         }
         else if (srcElement.tagName == "BUTTON" && srcElement.id == "submit") {
-            alert(innerOut);
+            convert2BIEO();
+            boundary = [];
+            innerOut = [];
             var center = document.getElementById("sample");
             center.innerHTML = "下一个";
         }
@@ -83,35 +87,43 @@
     //  recommend some candidates for entity linking labelling
     // 2. write labelled result to database
     function convert2BIEO(){
+        alert(boundary);
         var ques = document.getElementById("sample").innerText;
         var quesArr = [];
-        for(let char of ques){
-            quesArr.push(char + "(O)")
+        for (let char of ques) {
+            quesArr.push("O");
         }
 
-        for(j = 0,len=boundary.length; j < len; j++) {
-            var begin = boundary[j][0];
-            var end = boundary[j][1];
-            for(m = begin;m<end;m++){
-                if(m==begin){
-                    quesArr[m] = quesArr[m].substr(0,2)+"B-"+(j+1)+")"
-                }
-                else if(m==(begin+1)){
-                    quesArr[m] = quesArr[m].substr(0,2)+"I-"+(j+1)+")"
-                }
-                else if(m==(end-1)){
-                    quesArr[m] = quesArr[m].substr(0,2)+"E-"+(j+1)+")"
+        for (j=0; j<boundary.length; j++) {
+            if (boundary[j].length == 0) {
+                continue;
+            }
 
-                }
-                else
-                    quesArr[m] = quesArr[m].substr(0,2)+"IO-"+(j+1)+")"
+            begin = boundary[j][0];
+            end = boundary[j][1];
+            quesArr[begin] = "B";
+            quesArr[end-1] = "E";
+            for (m=begin+1; m<end-1; m++) {
+                quesArr[m] = "I";
             }
         }
-        var res = "";
-        for(i = 0,len=quesArr.length; i < len; i++){
-            res = res.concat(quesArr[i]);
+
+        for (j=0; j<innerOut.length; j++) {
+            if (innerOut[j].length == 0) {
+                continue;
+            }
+
+            begin = innerOut[j][0];
+            end = innerOut[j][1];
+            for (m=begin; m<end; m++) {
+                if (quesArr[m] == "I") {
+                    quesArr[m] = "o";
+                }
+            }
         }
-        console.log(res);
+
+        console.log(quesArr);
+        alert(ques + quesArr);
     }
 </script>
 </html>
