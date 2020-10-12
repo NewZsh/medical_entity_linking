@@ -19,14 +19,18 @@
 <script>
     var boundary = [];
     var innerOut = [];
+    // to do, use mouse from right to left
+    // i.e., to deal with txt.anchorOffset < txt.focusOffset
     var funcGetSelectText = function(id, flag) {
         var txt = document.getSelection();
+        left_side = min(txt.anchorOffset, txt.focusOffset);
+        right_side = max(txt.anchorOffset, txt.focusOffset);
         if (flag == 0) {
-            boundary.push([txt.anchorOffset, txt.focusOffset]);
+            boundary.push([left_side, right_side]);
             innerOut.push([]); 
             return txt.toString();  
         } else if (flag == 1) {
-            var offset = [txt.anchorOffset, txt.focusOffset];
+            var offset = [left_side, right_side];
             lastInnerOut = innerOut[id];
             if (lastInnerOut.length > 0) {
                 offset[0] += lastInnerOut[lastInnerOut.length - 1][1];
