@@ -94,7 +94,6 @@
     //  recommend some candidates for entity linking labelling
     // 2. write labelled result to database
     function convert2BIEO(){
-        alert(boundary);
         var ques = document.getElementById("sample").innerText;
         var quesArr = [];
         for (let char of ques) {
@@ -120,11 +119,13 @@
                 continue;
             }
 
-            begin = innerOut[j][0];
-            end = innerOut[j][1];
-            for (m=begin; m<end; m++) {
-                if (quesArr[m] == "I") {
-                    quesArr[m] = "o";
+            for (k=0; k<innerOut[j].length; k++) {
+                begin = boundary[j][0] + innerOut[j][k][0];
+                end = boundary[j][0] + innerOut[j][k][1];
+                for (m=begin; m<end; m++) {
+                    if (quesArr[m] == "I") {
+                        quesArr[m] = "o";
+                    }
                 }
             }
         }
