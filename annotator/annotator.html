@@ -13,12 +13,42 @@
             submit
         </button>
     </center>
-    <form name="myForm" id="myForm" onsubmit="return validateForm()">
-    </form>
+    <ul name="myForm" id="myForm" onsubmit="return validateForm()">
+    </ul>
 </body>
 <script>
+    // --- global variables
     var boundary = [];
     var innerOut = [];
+    // --- end of global variables
+
+    var phone = '';
+    function btn() { // 点击按钮触发的事件
+        phone = document.getElementById('phone').value;
+        $ajax({
+            url: "http://172.17.84.107:8000",  // 如果有一个总的路径，需要加上总的路径，再加上方法的路径名
+            dataType: "json",    // 返回格式为json格式
+            async: true,         // 请求是否异步，默认为异步
+            type: "GET/POST",    // 请求方式
+            data:{
+                'phone': 100,
+                // "传给后端的参数名":参数值,
+            },
+            beforesend:function(){
+                // 请求前的处理
+            },
+            success:function(res){
+                // 请求成功时的处理
+            },
+            complete:function(){
+                // 请求完成时的处理	
+            },
+            error:function(){
+                alert("error");
+            }
+        })
+    }
+
     var funcGetSelectText = function(id, flag) {
         var txt = document.getSelection();
         if (txt.anchorOffset >= txt.focusOffset) {
@@ -50,49 +80,16 @@
         delNode = element.parentNode;
         delNode.remove(element);
     }
-    
-    var container = container || document;
-    var index = 0;
-    container.onmouseup = function() {
-        var srcElement = event.srcElement;
-        if (srcElement.tagName == "T") {
-            var txt = funcGetSelectText(0, 0);
-            var form = document.getElementById("myForm");
-            var li = document.createElement("li");
-            li.id = index;
-            form.appendChild(li);
-            li.innerHTML = txt;
 
-            var btn = document.createElement("button");
-            btn.innerHTML = "X";
-            btn.setAttribute("onclick", "del(this)");
-            li.appendChild(btn);
-
-            index += 1;
-        }
-        else if (srcElement.tagName == "LI") {
-            funcGetSelectText(srcElement.id, 1);
-
-            lastInnerOut = innerOut[srcElement.id];
-            slice_index = 41 * (lastInnerOut.length - 1);
-
-            var txt = srcElement.innerHTML;
-            txt = txt.slice(0, slice_index + lastInnerOut[lastInnerOut.length - 1][0]) + '<small><font color="gray">' + txt.slice(slice_index + lastInnerOut[lastInnerOut.length - 1][0], slice_index + lastInnerOut[lastInnerOut.length - 1][1]) + "</font></small>" + txt.slice(slice_index + lastInnerOut[lastInnerOut.length - 1][1]);
-            srcElement.innerHTML = txt;
-        }
-        else if (srcElement.tagName == "BUTTON" && srcElement.id == "submit") {
-            convert2BIEO();
-            boundary = [];
-            innerOut = [];
-            var center = document.getElementById("sample");
-            center.innerHTML = "下一个";
-        }
+    function assitant_annotation(text) {
+        var result = new Array("疾病", "糖尿病");
+        return result;
     }
-
-    // to do list
-    // 1. read knowledge graph, and then,
-    //  recommend some candidates for entity linking labelling
-    // 2. write labelled result to database
+    
+    // to do 2
+    // read knowledge graph, and then,
+    // recommend some candidates for entity linking labelling
+    // write labelled result to database
     function convert2BIEO(){
         var ques = document.getElementById("sample").innerText;
         var quesArr = [];
@@ -132,6 +129,72 @@
 
         console.log(quesArr);
         alert(ques + quesArr);
+    }
+
+    var container = container || document;
+    var index = 0;
+    container.onmouseup = function() {
+        var srcElement = event.srcElement;
+        if (srcElement.tagName == "T") {
+            var txt = funcGetSelectText(0, 0);
+            var form = document.getElementById("myForm");
+            var li = document.createElement("li");
+            li.id = index;
+            form.appendChild(li);
+            li.innerHTML = txt;
+ 
+            li.appendChild(document.createTextNode(" "));
+
+            var btn = document.createElement("button");
+            btn.innerHTML = "X";
+            btn.setAttribute("onclick", "del(this)");
+            li.appendChild(btn);
+
+            // to do 
+            // get text
+            // assitant_annotation(text);
+            result = assitant_annotation(" ");
+            entity_type = result[0];
+            entity_norm = result[1];
+
+            var li = document.createElement("li");
+            li.style = "list-style-type: none;";
+            li.id = "type" + index.toString();
+            form.appendChild(li);
+            li.innerHTML = "实体类型（推荐）：" + entity_type;
+
+            // to do 1
+            // generate attributes for differernt types of entities
+            // for example, to a disease, annotates its period, and to a symptom, annotates its degree
+
+            var li = document.createElement("li");
+            li.style = "list-style-type: none;";
+            li.id = "norm" + index.toString();
+            form.appendChild(li);
+            li.innerHTML = "规范化实体（推荐）：" + entity_norm;
+
+            // to do
+            // enable manual correction
+
+            index += 1;
+        }
+        else if (srcElement.tagName == "LI") {
+            funcGetSelectText(srcElement.id, 1);
+
+            lastInnerOut = innerOut[srcElement.id];
+            slice_index = 41 * (lastInnerOut.length - 1);
+
+            var txt = srcElement.innerHTML;
+            txt = txt.slice(0, slice_index + lastInnerOut[lastInnerOut.length - 1][0]) + '<small><font color="gray">' + txt.slice(slice_index + lastInnerOut[lastInnerOut.length - 1][0], slice_index + lastInnerOut[lastInnerOut.length - 1][1]) + "</font></small>" + txt.slice(slice_index + lastInnerOut[lastInnerOut.length - 1][1]);
+            srcElement.innerHTML = txt;
+        }
+        else if (srcElement.tagName == "BUTTON" && srcElement.id == "submit") {
+            convert2BIEO();
+            boundary = [];
+            innerOut = [];
+            var center = document.getElementById("sample");
+            center.innerHTML = "下一个";
+        }
     }
 </script>
 </html>
