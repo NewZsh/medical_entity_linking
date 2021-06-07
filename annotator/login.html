@@ -1,0 +1,51 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="UTF-8">  
+    <title>患者主诉实体链接标注系统</title>
+    <link rel="stylesheet" type="text/css" href="css_login.css"/> 
+</head>
+<body>
+    <div id="login">  
+        <h1>Login</h1>  
+        <form method="get">  
+            <input type="username" required="required" placeholder="用户名" id="username"></input>  
+            <input type="password" required="required" placeholder="密码" id="password"></input>  
+            <button id="login_button" class="but" type="submit" onclick="onLogin()">登录</button>  
+            <br></br>
+            <button id="register_button" class="but" type="submit" onclick="onRegister()">新用户请注册</button>
+        </form>  
+    </div>  
+</body>
+
+<script>
+// --- global variables
+var username = "";
+var password = "";
+// --- end of global variables
+
+// to do: 
+// 1. Verification Code
+// 2. Enable different type of login and type check: username (check ill-legal chars), mail (check valid mail) or phone (check valid phone number)
+function onLogin() {
+    username = document.getElementById('username').value;
+    password = document.getElementById('password').value;
+    var xhr = new XMLHttpRequest();
+    xhr.timeout = 5000;
+    xhr.ontimeout = function(event){
+        alert('请求超时！');
+    }
+    xhr.open("get", "http://172.17.168.66:8008/?action=1001&username=" + username + "&password=" + password);
+    xhr.send();
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState == 4 && xhr.status == 200) {
+            if (xhr.responseText == '1') {
+                window.location.href = "./annotator.html";
+            } else {
+                alert("登录失败！");
+            }
+        }
+    };
+}
+</script>
+</html>
