@@ -4,24 +4,37 @@
     <meta charset="UTF-8">  
     <title>患者主诉实体链接标注系统</title>
     <link rel="stylesheet" type="text/css" href="css_login.css"/> 
+    <script src="jsencrypt/bin/jsencrypt.min.js"></script>
 </head>
 <body>
-    <div id="login">  
+    <div id="register">  
         <h1>Login</h1>  
-        <form method="get">  
+        <form>  
             <input type="username" required="required" placeholder="用户名" id="username"></input>  
             <input type="password" required="required" placeholder="请输入密码（6-16位）" id="password"></input>
             <input type="password" required="required" placeholder="再次输入密码" id="password_confirm"></input>
-            <button id="login_button" class="but" type="submit" onclick="onRegister()">注册</button>
-        </form>  
+        </form>
+        <button id="register_button" class="but" onclick="onRegister()">注册</button>
     </div>  
 </body>
+</html>
 
 <script>
 // --- global variables
 var username = "";
 var password = "";
 var password_confirm = "";
+var public_key = "-----BEGIN PUBLIC KEY-----\
+    MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAwNam1d6n8luxBbeCsQuW\
+    xu4l5q4XAwuDSvQx1Hc3hIHBKvd8GBGRwDFPgpfzmyahTHWaQXvIzE1GP++98Vlq\
+    nCybUSlf7/xwXgPiQVb1Yvox4a6Qohavt9vok1WpYopfJ2e4J9vdEwlEi51K4BCB\
+    Q6gBu0OFTfOmILNTXFqx5atWGAx8kr2Mpvi1m54MHS7kREWdPJ0T253T9PaHXcc/\
+    mD41McGD2/AnqgL9bMdWhCWvd8AooixFWf7Id/avquPzfG87RFks7mPpVf5AwzJK\
+    1M0uS8oWAXy55LFwphpJGH4muslX7gTEOYdIzCTd59jsZYoSb7979bcZcylkyAnr\
+    awIDAQAB\
+    -----END PUBLIC KEY-----";
+var encrypt = new JSEncrypt();
+var password_encrypted = "";
 // --- end of global variables
 
 // to do: security
@@ -32,26 +45,37 @@ function onRegister() {
     password = document.getElementById('password').value;
     password_confirm = document.getElementById('password_confirm').value;
 
+    if (password.length < 6 || password.length > 16) {
+        alert("密码长度不合法！");
+        return;
+    }
+
     if (password != password_confirm) {
         alert("两次输入的密码不相同！");
+        return;
     }
+
+    encrypt.setPublicKey(public_key);
+    password_encrypted = encrypt.encrypt(password);
 
     var xhr = new XMLHttpRequest();
     xhr.timeout = 5000;
     xhr.ontimeout = function(event){
         alert('请求超时！');
     }
-    xhr.open("get", "http://172.17.168.66:8008/?action=1000&username=" + username + "&password=" + password);
+    xhr.open("get", "http://172.17.168.66:8008/?action=1000&username=" + username + "&password=" + password_encrypted);
     xhr.send();
     xhr.onreadystatechange = function() {
         if (xhr.readyState == 4 && xhr.status == 200) {
-            if (xhr.responseText == '1') {
-                window.location.href = "./annotator.html";
+            alert(xhr.responseText);
+            response = JSON.parse(xhr.responseText);
+            alert(response);
+            if (response['errcode'] == 0) {
+                window.location.href = "./login.html";
             } else {
-                alert("注册失败！");
+                alert(response['errmsg']);
             }
         }
     };
 }
 </script>
-</html>

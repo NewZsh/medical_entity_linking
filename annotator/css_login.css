@@ -19,7 +19,21 @@ body{
     width: 300px;   
     height: 300px;   
 }   
+#register{   
+    position: absolute;   
+    top: 50%;   
+    left:50%;   
+    margin: -150px 0 0 -150px;   
+    width: 300px;   
+    height: 300px;   
+}   
 #login h1{   
+    color: #4a77d4;   
+    text-shadow:0 0 0px;   
+    letter-spacing: 1px;   
+    text-align: center;   
+}   
+#register h1{   
     color: #4a77d4;   
     text-shadow:0 0 0px;   
     letter-spacing: 1px;   
