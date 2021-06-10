@@ -13,28 +13,30 @@ import xml.etree.cElementTree as ET
 from http.server import HTTPServer
 from http.server import BaseHTTPRequestHandler
 
-USER_LOG_FILE = "user.json"
+USER_LOG_FILE = "resource/user/user.json"
+PUB_KEY_FILE = "resource/key/public_key.rsa"
+PRI_KEY_FILE = "resource/key/private_key.rsa"
 legal_action = {'1000': True,  # register 
                 '1001': True,  # login
                 '1002': True,  # query a RSA public key
                 '1003': True,  # submit
             }
 
-if not os.path.exists("public_key.rsa") \
-    or not os.path.exists("private_key.rsa"):
+if not os.path.exists(PUB_KEY_FILE) \
+    or not os.path.exists(PRI_KEY_FILE):
     random_generator = Random.new().read
     rsa = RSA.generate(2048, random_generator)
     
     private_key = rsa.exportKey()
-    with open("private_key.rsa", 'wb') as f:
+    with open(PRI_KEY_FILE, 'wb') as f:
         f.write(private_key)
     
     public_key = rsa.publickey().exportKey()
-    with open("public_key.rsa", 'wb') as f:
+    with open(PUB_KEY_FILE, 'wb') as f:
         f.write(public_key)
 else:
-    public_key = open("public_key.rsa", 'rb').read()
-    private_key = RSA.importKey(open("private_key.rsa", 'rb').read())
+    public_key = open(PUB_KEY_FILE, 'rb').read()
+    private_key = RSA.importKey(open(PRI_KEY_FILE, 'rb').read())
 
 cipher = PKCS1_cipher.new(private_key)
 
