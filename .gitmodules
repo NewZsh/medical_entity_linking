@@ -1,0 +1,3 @@
+[submodule "src/ui/jsencrypt"]
+	path = src/ui/jsencrypt
+	url = https://github.com/travist/jsencrypt.git
