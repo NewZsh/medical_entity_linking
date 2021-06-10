@@ -13,15 +13,17 @@ import xml.etree.cElementTree as ET
 from http.server import HTTPServer
 from http.server import BaseHTTPRequestHandler
 
-USER_LOG_FILE = "resource/user/user.json"
-PUB_KEY_FILE = "resource/key/public_key.rsa"
-PRI_KEY_FILE = "resource/key/private_key.rsa"
+USER_LOG_FILE = "../../resource/user/user.json"
+PUB_KEY_FILE = "../../resource/key/public_key.rsa"
+PRI_KEY_FILE = "../../resource/key/private_key.rsa"
 legal_action = {'1000': True,  # register 
                 '1001': True,  # login
                 '1002': True,  # query a RSA public key
-                '1003': True,  # submit
+                '1003': True,  # get sample
+                '1004': True   # submit
             }
 
+# init key
 if not os.path.exists(PUB_KEY_FILE) \
     or not os.path.exists(PRI_KEY_FILE):
     random_generator = Random.new().read
@@ -40,6 +42,7 @@ else:
 
 cipher = PKCS1_cipher.new(private_key)
 
+# init users database
 users = {}
 if not os.path.exists(USER_LOG_FILE):
     f = open(USER_LOG_FILE, 'w')
@@ -91,6 +94,22 @@ class GetHandler(BaseHTTPRequestHandler):
 
         return json.dumps({'errcode': errcode, 'errmsg': errmsg})
 
+    def _sample(self, username):
+        # if username not in users:
+        #     errcode = -1
+        #     errmsg = '非法用户'
+        # else:
+        #     text = corpus_sample(username)
+        #     if text == '':
+        #         errcode = -1
+        #         errmsg = '无可用样本'
+        #     else:
+        #         errcode = 0
+        #         errmsg = ''
+        
+        text = "医生您好！我的小腹为什么这么这么疼？我的胃口也不太好？"
+        return json.dumps({'errcode': 0, 'errmsg': '', 'type': 1, 'text': text})
+
     def _parse(self, query):
         result = {}
         items = query.split('&')
@@ -117,14 +136,18 @@ class GetHandler(BaseHTTPRequestHandler):
 
             if parsed_result['action'] == '1000':
                 sRespData = self._register(parsed_result['username'], parsed_result['password'])
-                print(sRespData)
-                self.wfile.write(sRespData.encode())      
             elif parsed_result['action'] == '1001':
                 sRespData = self._authorize(parsed_result['username'], parsed_result['password'])
-                print(sRespData)
-                self.wfile.write(sRespData.encode())
             elif parsed_result['action'] == '1002':
-                self.wfile.write(public_key)
+                sRespData = json.dumps({'errcode': 0, 'errmsg': '', 'public_key': public_key.decode('utf-8')})
+            elif parsed_result['action'] == '1003':
+                sRespData = self._sample(parsed_result['username'])
+            elif parsed_result['action'] == '1004':
+                pass
+            else:
+                sRespData = json.dumps({'errcode': -1, 'errmsg': '未定义的操作'})
+            print(sRespData)
+            self.wfile.write(sRespData.encode())
         else:
             self.send_response(404)
             self._send_cors_headers()

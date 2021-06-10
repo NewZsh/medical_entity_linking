@@ -9,7 +9,7 @@
     <center>
         <!-- to do: read samples from database -->
         <p id="predix">患者问句：
-        <t id="sample">医生您好！我的小腹为什么这么这么疼？我的胃口也不太好？</t>
+        <t id="sample"></t>
         </p>
         <button id="submit" >
             submit
@@ -20,24 +20,53 @@
 </body>
 
 <script>
+
 // --- global variables
+try {
+    var s = location.href;
+    var username = s.split("?")[1].split("=")[1];
+}
+catch {
+    alert("请先登录！");
+    window.location.href = './login.html';
+}
+
+var text = "";
 var boundary = [];
 var innerOut = [];
 // --- end of global variables
+if (document.getElementById("sample").innerText == "") {
+    getSample();
+}
 
-var phone = '';
-function onSubmit() { // 点击按钮触发的事件
-    phone = 188;
+/* get sample text from server
+ */
+function getSample() {
     var xhr = new XMLHttpRequest();
-    xhr.open("get", "http://localhost:8008");
+    xhr.timeout = 5000;
+    xhr.ontimeout = function(event){
+        alert('请求超时！');
+    }
+    xhr.open("get", "http://172.17.168.66:8008/?action=1003&username=" + username, true);
     xhr.send();
-    xhr.onreadystatechange = function(){
+    xhr.onreadystatechange = function() {
         if (xhr.readyState == 4 && xhr.status == 200) {
-            alert(xhr.responseText);
-        } else {
-            alert(xhr.statusText);
+            response = JSON.parse(xhr.responseText);
+            if (response['errcode'] == 0) {
+                // to do: enable multi-turn QA annotation (type=2)
+                if (response['type'] == 1) {
+                    text = response["text"];
+                    document.getElementById("sample").innerText = text;
+                } else {
+                    pass;
+                }
+            } else {
+                alert(response['errmsg']);
+            }
         }
     };
+
+    delete xhr;
 }
 
 var funcGetSelectText = function(id, flag) {
