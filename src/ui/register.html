@@ -24,18 +24,28 @@
 var username = "";
 var password = "";
 var password_confirm = "";
-var public_key = "-----BEGIN PUBLIC KEY-----\
-    MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAwNam1d6n8luxBbeCsQuW\
-    xu4l5q4XAwuDSvQx1Hc3hIHBKvd8GBGRwDFPgpfzmyahTHWaQXvIzE1GP++98Vlq\
-    nCybUSlf7/xwXgPiQVb1Yvox4a6Qohavt9vok1WpYopfJ2e4J9vdEwlEi51K4BCB\
-    Q6gBu0OFTfOmILNTXFqx5atWGAx8kr2Mpvi1m54MHS7kREWdPJ0T253T9PaHXcc/\
-    mD41McGD2/AnqgL9bMdWhCWvd8AooixFWf7Id/avquPzfG87RFks7mPpVf5AwzJK\
-    1M0uS8oWAXy55LFwphpJGH4muslX7gTEOYdIzCTd59jsZYoSb7979bcZcylkyAnr\
-    awIDAQAB\
-    -----END PUBLIC KEY-----";
+var public_key = "";
 var encrypt = new JSEncrypt();
 var password_encrypted = "";
 // --- end of global variables
+
+var xhr = new XMLHttpRequest();
+xhr.timeout = 5000;
+xhr.ontimeout = function(event){
+    alert('请求超时！');
+}
+xhr.open("get", "http://172.17.168.66:8008/?action=1002", true);
+xhr.send();
+xhr.onreadystatechange = function() {
+    if (xhr.readyState == 4 && xhr.status == 200) {
+        response = JSON.parse(xhr.responseText);
+        if (response["errcode"] == 0) {
+            public_key = response["public_key"];
+        } else {
+            alert(response["errmsg"]);
+        }
+    }
+};
 
 // to do: security
 // 1. Verification Code
