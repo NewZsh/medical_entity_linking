@@ -1,3 +1,21 @@
+## architecture
+- src
+  - svr
+  - ui (manual annotation)
+  - spider
+    - kg_spider
+    - corpus_spider
+  - model (assitant annotation)
+  - check (check the annotations, write to corpus database)
+- resource
+  - key
+  - user
+  - medical_kg
+  - corpus
+- log
+
+
+## to do
 1. Read input
    - 请求网络数据
    - 数据来的时候是q，但事实上是qa对
