@@ -12,11 +12,75 @@ import datetime
 from lxml import etree
 import codecs
 import http
+from graph_db import graphDB_interface
+from graph_db import fuzzyMatchStr
 
-headers = {'User-Agent': 'User-Agent:Mozilla/5.0'}
+HEADERS = {'User-Agent': 'User-Agent:Mozilla/5.0'}
+SCHEMA_FILE = '../../resource/kg/schema.txt'
+TRIPLETS_FILE = '../../resource/kg/triplets.txt'
+CONCEPTS_FILE = '../../resource/kg/concepts.txt'
+
+class kg_constructor():
+    def __init__(self):
+        super().__init__()
+        self.new_concepts = []
+        self.new_triplets = []
+        self.graphDB = graphDB_interface()
+
+    def accept_new_concept(self, concept):
+        name = concept[0]
+        label = concept[2]
+        node = self.graphDB.searchNode(label, {'name': name})
+        if node is None:
+            candidates = self.graphDB.fuzzySearchNode(label, {'name': name})
+            if len(candidates) == 0:
+                return True
+            else:
+                # to do
+                # throw to human annotator to check
+                return False
+        else:
+            return False
+
+
+    def accept_new_triplet(self, triplet):
+        return True
+
+    def filter_intodb(self):
+        for concept in self.new_concepts:
+            if self.accept_new_concept(concept):
+                name = concept[0]
+                label = concept[2]
+                self.graphDB.createNode(label, {'name': name})
+
+        for triplet in self.new_triplets:
+            if self.accept_new_triplet(triplet):
+                self.graphDB.createRel('entity:部位', {'name': triplet[0]}, 'entity:部位', {'name': triplet[2]}, triplet[1])
+
+
+class kgOrgan_constructor(kg_constructor):
+    def __init__(self):
+        super().__init__()
+
+    def parse(self):
+        url = 'https://jbk.39.net/'
+        req = request.Request(url, headers=HEADERS)
+        response = request.urlopen(req)
+        html = response.read()
+        xml = etree.HTML(html)
+
+        organ_level1 = xml.xpath('//*[@class="menu_ul_bw"]')[0].xpath('.//a/text()')
+        organ_level2 = xml.xpath('//*[@class="menu_item_all"]')[1].xpath('./*')
+        for i, items in enumerate(organ_level2):
+            organ = organ_level1[i]
+            self.new_concepts.append([organ, 'rdfs:subClassOf', 'entity:部位'])
+            for sub_organ in items.xpath('.//*[@class="menu_item_box_tit"]//a/text()')[:-2]:
+                self.new_concepts.append([sub_organ, 'rdfs:subClassOf', 'entity:部位'])
+                self.new_triplets.append([sub_organ, 'relation:PartOf', organ])
+
 
 def parse_single_disease(href):
-    req = request.Request(href, headers=headers)
+    req = request.Request(href, headers=HEADERS)
     response = request.urlopen(req)
     html = response.read()
     xml = etree.HTML(html)
@@ -50,7 +114,7 @@ def parse_all_disease():
             else:
                 page = page_prefix + '/'
             
-            req = request.Request(page, headers=headers)
+            req = request.Request(page, headers=HEADERS)
             response = request.urlopen(req)
             html = response.read()
             xml = etree.HTML(html)
@@ -73,7 +137,7 @@ def parse_all_disease():
             print('finished spying page %d' % i)
 
 def parse_single_examination(href):
-    req = request.Request(href, headers=headers)
+    req = request.Request(href, headers=HEADERS)
     response = request.urlopen(req)
     html = response.read()
     xml = etree.HTML(html)
@@ -116,7 +180,7 @@ def parse_all_examination():
             else:
                 page = page_prefix + '/'
             
-            req = request.Request(page, headers=headers)
+            req = request.Request(page, headers=HEADERS)
             response = request.urlopen(req)
             html = response.read()
             xml = etree.HTML(html)
@@ -143,5 +207,15 @@ def parse_all_examination():
             print('finished spying page %d' % i)
 
 if __name__ == '__main__':
-    parse_all_disease()
-    parse_all_examination()
+    constructor = kgOrgan_constructor()
+    constructor.graphDB.empty()
+
+    constructor.parse()
+    constructor.filter_intodb()
+
+    print(constructor.graphDB.searchNode('entity:部位', {'name': "肠"}))
+    print(constructor.graphDB.fuzzySearchNode('entity:部位', {'name': "肠"}))
+    print(constructor.graphDB.fuzzySearchNode('entity:部位', {'name': "肠道"}))
+
+    # parse_all_disease()
+    # parse_all_examination()

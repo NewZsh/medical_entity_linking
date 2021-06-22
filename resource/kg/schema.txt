@@ -1,0 +1,167 @@
+@prefix owl: <http://www.w3.org/2002/07/owl#>
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#>
+@prefix entity
+@prefix relation
+@prefix property
+
+# entity
+entity:疾病	rdf:type	owl:Class
+entity:疾病	rdfs:subClassOf	owl:Thing
+entity:症状	rdf:type	owl:Class
+entity:症状	rdfs:subClassOf	owl:Thing
+entity:科室	rdf:type	owl:Class
+entity:科室	rdfs:subClassOf	owl:Thing
+entity:检查	rdf:type	owl:Class
+entity:检查	rdfs:subClassOf	owl:Thing
+entity:部位	rdf:type	owl:Class
+entity:部位	rdfs:subClassOf	owl:Thing
+entity:药品	rdf:type	owl:Class
+entity:药品	rdfs:subClassOf	owl:Thing
+entity:中药	rdf:type	owl:Class
+entity:中药	rdfs:subClassOf	entity:药品
+entity:西药	rdf:type	owl:Class
+entity:西药	rdfs:subClassOf	entity:药品
+entity:中医症状	rdf:type	owl:Class
+entity:中医症状	rdfs:subClassOf	entity:症状
+entity:西医症状	rdf:type	owl:Class
+entity:西医症状	rdfs:subClassOf	entity:症状
+entity:人群	rdf:type	owl:Class
+entity:人群	rdfs:subClassOf	owl:Thing
+
+# [pre-definiiton] sub class of entity:人群
+entity:男性	rdf:type	owl:Class
+entity:男性	rdfs:subClassOf	owl:人群
+entity:女性	rdf:type	owl:Class
+entity:女性	rdfs:subClassOf	owl:人群
+entity:婴儿	rdf:type	owl:Class
+entity:婴儿	rdfs:subClassOf	owl:人群
+entity:儿童	rdf:type	owl:Class
+entity:儿童	rdfs:subClassOf	owl:人群
+entity:老人	rdf:type	owl:Class
+entity:老人	rdfs:subClassOf	owl:人群
+entity:未成年人	rdf:type	owl:Class
+entity:未成年人	rdfs:subClassOf	owl:人群
+entity:成年人	rdf:type	owl:Class
+entity:成年人	rdfs:subClassOf	owl:人群
+entity:孕妇	rdf:type	owl:Class
+entity:孕妇	rdfs:subClassOf	owl:人群
+entity:产妇	rdf:type	owl:Class
+entity:产妇	rdfs:subClassOf	owl:人群
+
+# property of entity:疾病
+relation:疾病相关症状	rdf:type	owl:ObjectProperty
+relation:疾病相关症状	rdfs:domain	entity:疾病
+relation:疾病相关症状	rdfs:range	entity:症状
+relation:疾病并发症	rdf:type	owl:ObjectProperty
+relation:疾病并发症	rdfs:domain	entity:疾病
+relation:疾病并发症	rdfs:range	entity:疾病
+relation:疾病相关疾病	rdf:type	owl:ObjectProperty
+relation:疾病相关疾病	rdfs:domain	entity:疾病
+relation:疾病相关疾病	rdfs:range	entity:疾病
+relation:疾病相关药品	rdf:type	owl:ObjectProperty
+relation:疾病相关药品	rdfs:domain	entity:疾病
+relation:疾病相关药品	rdfs:range	entity:药品
+relation:疾病相关科室	rdf:type	owl:ObjectProperty
+relation:疾病相关科室	rdfs:domain	entity:疾病
+relation:疾病相关科室	rdfs:range	entity:科室
+relation:疾病相关检查	rdf:type	owl:ObjectProperty
+relation:疾病相关检查	rdfs:domain	entity:疾病
+relation:疾病相关检查	rdfs:range	entity:检查
+relation:疾病相关部位	rdf:type	owl:ObjectProperty
+relation:疾病相关部位	rdfs:domain	entity:疾病
+relation:疾病相关部位	rdfs:range	entity:部位
+relation:疾病好发人群	rdf:type	owl:ObjectProperty
+relation:疾病好发人群	rdfs:domain	entity:疾病
+relation:疾病好发人群	rdfs:range	entity:人群
+property:疾病好发年龄段	rdf:type	owl:ObjectProperty
+property:疾病好发年龄段	rdfs:domain	entity:疾病
+property:疾病好发年龄段	rdfs:range	xsd:restriction
+property:别名	rdf:type	owl:ObjectProperty
+property:别名	rdfs:domain	entity:疾病
+property:别名	rdfs:range	xsd:string
+property:病因	rdf:type	owl:ObjectProperty
+property:病因	rdfs:domain	entity:疾病
+property:病因	rdfs:range	xsd:string
+property:预防	rdf:type	owl:ObjectProperty
+property:预防	rdfs:domain	entity:疾病
+property:预防	rdfs:range	xsd:string
+property:患病比例	rdf:type	owl:ObjectProperty
+property:患病比例	rdfs:domain	entity:疾病
+property:患病比例	rdfs:range	xsd:fractionDigits
+property:治愈率	rdf:type	owl:ObjectProperty
+property:治愈率	rdfs:domain	entity:疾病
+property:治愈率	rdfs:range	xsd:fractionDigits
+property:传染性	rdf:type	owl:ObjectProperty
+property:传染性	rdfs:domain	entity:疾病
+property:传染性	rdfs:range	xsd:boolean
+property:是否医保	rdf:type	owl:ObjectProperty
+property:是否医保	rdfs:domain	entity:疾病
+property:是否医保	rdfs:range	xsd:boolean
+property:治疗费用	rdf:type	owl:ObjectProperty
+property:治疗费用	rdfs:domain	entity:疾病
+property:治疗费用	rdfs:range	xsd:restriction
+property:治疗周期	rdf:type	owl:ObjectProperty
+property:治疗周期	rdfs:domain	entity:疾病
+property:治疗周期	rdfs:range	xsd:restriction
+
+# property of entity:症状
+relation:症状相关症状	rdf:type	owl:ObjectProperty
+relation:症状相关症状	rdfs:domain	entity:症状
+relation:症状相关症状	rdfs:range	entity:症状
+relation:症状相关疾病	rdf:type	owl:ObjectProperty
+relation:症状相关疾病	rdfs:domain	entity:症状
+relation:症状相关疾病	rdfs:range	entity:疾病
+relation:症状相关药品	rdf:type	owl:ObjectProperty
+relation:症状相关药品	rdfs:domain	entity:症状
+relation:症状相关药品	rdfs:range	entity:药品
+relation:症状相关科室	rdf:type	owl:ObjectProperty
+relation:症状相关科室	rdfs:domain	entity:症状
+relation:症状相关科室	rdfs:range	entity:科室
+relation:症状相关检查	rdf:type	owl:ObjectProperty
+relation:症状相关检查	rdfs:domain	entity:症状
+relation:症状相关检查	rdfs:range	entity:检查
+relation:症状相关部位	rdf:type	owl:ObjectProperty
+relation:症状相关部位	rdfs:domain	entity:症状
+relation:症状相关部位	rdfs:range	entity:部位
+
+# property of entity:检查
+relation:检查相关症状	rdf:type	owl:ObjectProperty
+relation:检查相关症状	rdfs:domain	entity:检查
+relation:检查相关症状	rdfs:range	entity:症状
+relation:检查相关疾病	rdf:type	owl:ObjectProperty
+relation:检查相关疾病	rdfs:domain	entity:检查
+relation:检查相关疾病	rdfs:range	entity:疾病
+relation:检查相关科室	rdf:type	owl:ObjectProperty
+relation:检查相关科室	rdfs:domain	entity:检查
+relation:检查相关科室	rdfs:range	entity:科室
+relation:检查相关检查	rdf:type	owl:ObjectProperty
+relation:检查相关检查	rdfs:domain	entity:检查
+relation:检查相关检查	rdfs:range	entity:检查
+relation:检查相关部位	rdf:type	owl:ObjectProperty
+relation:检查相关部位	rdfs:domain	entity:检查
+relation:检查相关部位	rdfs:range	entity:部位
+property:空腹检查	rdf:type	owl:ObjectProperty
+property:空腹检查	rdfs:domain	entity:检查
+property:空腹检查	rdfs:range	xsd:boolean
+property:正常值	rdf:type	owl:ObjectProperty
+property:正常值	rdfs:domain	entity:检查
+property:正常值	rdfs:range	xsd:restriction
+property:高于正常值	rdf:type	owl:ObjectProperty
+property:高于正常值	rdfs:domain	entity:检查
+property:高于正常值	rdfs:range	xsd:string
+property:低于正常值	rdf:type	owl:ObjectProperty
+property:低于正常值	rdfs:domain	entity:检查
+property:低于正常值	rdfs:range	xsd:string
+property:注意事项	rdf:type	owl:ObjectProperty
+property:注意事项	rdfs:domain	entity:检查
+property:注意事项	rdfs:range	xsd:string
+property:费用	rdf:type	owl:ObjectProperty
+property:费用	rdfs:domain	entity:检查
+property:费用	rdfs:range	xsd:restriction
+
+# property of entity:部位
+relation:PartOf	rdfs:type	owl:ObjectProperty
+relation:PartOf	rdfs:domain	entity:部位
+relation:PartOf	rdfs:range	entity:部位
