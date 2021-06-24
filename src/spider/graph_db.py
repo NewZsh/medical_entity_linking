@@ -125,6 +125,7 @@ if __name__ == '__main__':
 
     Names = ["老师", "销售", "程序员"]
     action = ["传授", "卖", "敲"]
+    action2 = ["吃", "丢", "删"]
     things = ["知识", "产品", "代码"]
     data = pd.DataFrame({'Names': Names, 'action': action, 'things': things})
 
@@ -150,6 +151,7 @@ if __name__ == '__main__':
         graphDB.createNode(label2, attr2)
         rtype = j.action
         re_value = graphDB.createRel(label1, attr1, label2, attr2, rtype)
+        re_value = graphDB.createRel(label1, attr1, label2, attr2, action2[i])
 
     print(graphDB.searchNode(['Name'], {'name': "老师"}))
     print(graphDB.searchNode('things', {'name': "学生"}))
