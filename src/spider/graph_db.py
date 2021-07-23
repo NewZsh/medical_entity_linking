@@ -41,7 +41,8 @@ class graphDB_interface:
             for key, value in attrs.items():
                 v = node[key]
 
-                if fuzzymatcher(v, value):
+                match = v == value if fuzzymatcher is None else fuzzymatcher(v, value)
+                if match:
                     candidates.append(node)
         
         return candidates
@@ -130,7 +131,7 @@ if __name__ == '__main__':
     data = pd.DataFrame({'Names': Names, 'action': action, 'things': things})
 
     graphDB.empty()
-    # exit()
+    exit()
     print('test search on an empty graph ...')
     print(graphDB.searchNode('Name', {'name': "老师"}))
     print(graphDB.searchNode('things', {'name': "学生"}))

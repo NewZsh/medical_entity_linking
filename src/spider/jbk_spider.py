@@ -27,12 +27,12 @@ class kg_constructor():
         self.new_triplets = []
         self.graphDB = graphDB_interface()
 
-    def accept_new_concept(self, concept):
+    def accept_new_concept(self, concept, fuzzymatcher=None):
         name = concept[0]
         label = concept[2]
         node = self.graphDB.searchNode(label, {'name': name})
         if node is None:
-            candidates = self.graphDB.fuzzySearchNode(label, {'name': name})
+            candidates = self.graphDB.fuzzySearchNode(label, {'name': name}, fuzzymatcher=fuzzymatcher)
             if len(candidates) == 0:
                 return True
             else:
