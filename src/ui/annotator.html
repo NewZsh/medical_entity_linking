@@ -25,39 +25,69 @@
                 <span>reply</span><div class="d-input__wrapper">
                     <textarea id="title" rows="1" cols="15" placeholder="" onfocus="this.select()" class="d-input__field d-input__field--textarea"></textarea></div>
             <br></br>
-            <div><label class="u-b-xs u-block u-h6">Entity labels (<a class="u-a" onclick="selectAll(this)">select all</a>)</label>
-                <label title="People, including fictional." for="person" class="d-input__option u-t-xs u-strong" style=""><input type="checkbox" id="person" value="person" class="d-input__option__box"> <span class="d-input__option__value">PERSON</span></label>
+            <div><label class="u-b-xs u-block u-h6">Medical Entity labels (<a class="u-a" onclick="selectAll(this)">select all</a>)</label>
+                <label title="疾病" for="disearse" class="d-input__option u-t-xs u-strong" style=""><input type="checkbox" id="disearse" value="disearse" class="d-input__option__box" checked="checked"> <span class="d-input__option__value">DISEASE</span></label>
+                <label title="中医描述的症状，如气虚等" for="cs" class="d-input__option u-t-xs u-strong" style=""><input type="checkbox" id="cs" value="cs" class="d-input__option__box" checked="checked"> <span class="d-input__option__value">SYMPTOM(in Chinese medicine)</span></label>
+                <label title="" for="ms" class="d-input__option u-t-xs u-strong" style="display: none;"><input type="checkbox" id="ms" value="ms" class="d-input__option__box" checked="checked"> <span class="d-input__option__value">SYMPTOM(in modern medicine)</span></label>
+                <label title="科室" for="dep" class="d-input__option u-t-xs u-strong" style=""><input type="checkbox" id="dep" value="dep" class="d-input__option__box" checked="checked"> <span class="d-input__option__value">DEPARTMENT</span></label>
+                <label title="检查" for="exam" class="d-input__option u-t-xs u-strong" style=""><input type="checkbox" id="exam" value="exam" class="d-input__option__box" checked="checked"> <span class="d-input__option__value">EXAMINATION</span></label>
+                <label title="中药" for="cm" class="d-input__option u-t-xs u-strong" style=""><input type="checkbox" id="cm" value="cm" class="d-input__option__box" checked="checked"> <span class="d-input__option__value">CHINESE MEDICINE</span></label>
+                <label title="西药" for="wm" class="d-input__option u-t-xs u-strong" style=""><input type="checkbox" id="wm" value="wm" class="d-input__option__box" checked="checked"> <span class="d-input__option__value">WESTERN MEDICINE</span></label>
+                <label title="器官" for="organ" class="d-input__option u-t-xs u-strong" style=""><input type="checkbox" id="organ" value="organ" class="d-input__option__box" checked="checked"> <span class="d-input__option__value">ORGAN</span></label>
+                <label title="年龄段" for="age" class="d-input__option u-t-xs u-strong" style=""><input type="checkbox" id="age" value="age" class="d-input__option__box" checked="checked"> <span class="d-input__option__value">AGE</span></label>
+                <label title="性别" for="sex" class="d-input__option u-t-xs u-strong" style=""><input type="checkbox" id="sex" value="sex" class="d-input__option__box" checked="checked"> <span class="d-input__option__value">SEXUAL</span></label>
+                <label title="特殊人群，如孕妇、易感人群等" for="cr" class="d-input__option u-t-xs u-strong" style=""><input type="checkbox" id="cr" value="cr" class="d-input__option__box" checked="checked"> <span class="d-input__option__value">CROWD</span></label>
+            </div>
+            <div><label class="u-b-xs u-block u-h6">Entity labels(<a class="u-a" onclick="selectAll(this)">select all</a>)</label>
+                <label title="People, including fictional." for="person" class="d-input__option u-t-xs u-strong" style=""><input type="checkbox" id="person" value="person" class="d-input__option__box" checked="checked"> <span class="d-input__option__value">PERSON</span></label>
                 <label title="Nationalities or religious or political groups." for="norp" class="d-input__option u-t-xs u-strong" style=""><input type="checkbox" id="norp" value="norp" class="d-input__option__box"> <span class="d-input__option__value">NORP</span></label>
                 <label title="Buildings, airports, highways, bridges, etc." for="facility" class="d-input__option u-t-xs u-strong" style="display: none;"><input type="checkbox" id="facility" value="facility" class="d-input__option__box"> <span class="d-input__option__value">FACILITY</span></label>
-                <label title="Companies, agencies, institutions, etc." for="org" class="d-input__option u-t-xs u-strong" style=""><input type="checkbox" id="org" value="org" class="d-input__option__box"> <span class="d-input__option__value">ORG</span></label>
-                <label title="Countries, cities, states." for="gpe" class="d-input__option u-t-xs u-strong" style=""><input type="checkbox" id="gpe" value="gpe" class="d-input__option__box"> <span class="d-input__option__value">GPE</span></label>
+                <label title="Companies, agencies, institutions, etc." for="org" class="d-input__option u-t-xs u-strong" style=""><input type="checkbox" id="org" value="org" class="d-input__option__box" checked="checked"> <span class="d-input__option__value">ORG</span></label>
+                <label title="Countries, cities, states." for="gpe" class="d-input__option u-t-xs u-strong" style=""><input type="checkbox" id="gpe" value="gpe" class="d-input__option__box" checked="checked"> <span class="d-input__option__value">GPE</span></label>
                 <label title="Non-GPE locations, mountain ranges, bodies of water." for="loc" class="d-input__option u-t-xs u-strong" style=""><input type="checkbox" id="loc" value="loc" class="d-input__option__box"> <span class="d-input__option__value">LOC</span></label>
                 <label title="Objects, vehicles, foods, etc. (Not services.)" for="product" class="d-input__option u-t-xs u-strong" style=""><input type="checkbox" id="product" value="product" class="d-input__option__box"> <span class="d-input__option__value">PRODUCT</span></label>
                 <label title="Named hurricanes, battles, wars, sports events, etc." for="event" class="d-input__option u-t-xs u-strong" style=""><input type="checkbox" id="event" value="event" class="d-input__option__box"> <span class="d-input__option__value">EVENT</span></label>
                 <label title="Titles of books, songs, etc." for="work_of_art" class="d-input__option u-t-xs u-strong" style=""><input type="checkbox" id="work_of_art" value="work_of_art" class="d-input__option__box"> <span class="d-input__option__value">WORK OF ART</span></label>
                 <label title="Any named language." for="language" class="d-input__option u-t-xs u-strong" style=""><input type="checkbox" id="language" value="language" class="d-input__option__box"> <span class="d-input__option__value">LANGUAGE</span></label>
-                <label title="Absolute or relative dates or periods." for="date" class="d-input__option u-t-xs u-strong" style=""><input type="checkbox" id="date" value="date" class="d-input__option__box"> <span class="d-input__option__value">DATE</span></label>
-                <label title="Times smaller than a day." for="time" class="d-input__option u-t-xs u-strong" style=""><input type="checkbox" id="time" value="time" class="d-input__option__box"> <span class="d-input__option__value">TIME</span></label>
-                <label title="Percentage, including ”%“." for="percent" class="d-input__option u-t-xs u-strong" style=""><input type="checkbox" id="percent" value="percent" class="d-input__option__box"> <span class="d-input__option__value">PERCENT</span></label>
-                <label title="Monetary values, including unit." for="money" class="d-input__option u-t-xs u-strong" style=""><input type="checkbox" id="money" value="money" class="d-input__option__box"> <span class="d-input__option__value">MONEY</span></label>
-                <label title="Measurements, as of weight or distance." for="quantity" class="d-input__option u-t-xs u-strong" style=""><input type="checkbox" id="quantity" value="quantity" class="d-input__option__box"> <span class="d-input__option__value">QUANTITY</span></label>
+                <label title="Absolute or relative dates or periods." for="date" class="d-input__option u-t-xs u-strong" style=""><input type="checkbox" id="date" value="date" class="d-input__option__box" checked="checked"> <span class="d-input__option__value">DATE</span></label>
+                <label title="Times smaller than a day." for="time" class="d-input__option u-t-xs u-strong" style=""><input type="checkbox" id="time" value="time" class="d-input__option__box" checked="checked"> <span class="d-input__option__value">TIME</span></label>
+                <label title="Percentage, including ”%“." for="percent" class="d-input__option u-t-xs u-strong" style=""><input type="checkbox" id="percent" value="percent" class="d-input__option__box" checked="checked"> <span class="d-input__option__value">PERCENT</span></label>
+                <label title="Monetary values, including unit." for="money" class="d-input__option u-t-xs u-strong" style=""><input type="checkbox" id="money" value="money" class="d-input__option__box" checked="checked"> <span class="d-input__option__value">MONEY</span></label>
+                <label title="Measurements, as of weight or distance." for="quantity" class="d-input__option u-t-xs u-strong" style=""><input type="checkbox" id="quantity" value="quantity" class="d-input__option__box" checked="checked"> <span class="d-input__option__value">QUANTITY</span></label>
                 <label title="“first”, “second”, etc." for="ordinal" class="d-input__option u-t-xs u-strong" style=""><input type="checkbox" id="ordinal" value="ordinal" class="d-input__option__box"> <span class="d-input__option__value">ORDINAL</span></label>
                 <label title="Numerals that do not fall under another type." for="cardinal" class="d-input__option u-t-xs u-strong" style=""><input type="checkbox" id="cardinal" value="cardinal" class="d-input__option__box"> <span class="d-input__option__value">CARDINAL</span></label>
                 <label title="Named documents made into laws." for="law" class="d-input__option u-t-xs u-strong" style=""><input type="checkbox" id="law" value="law" class="d-input__option__box"> <span class="d-input__option__value">LAW</span></label>
             </div>
+        </div>
     </header>
     
-    <section class="d-content l-wrapper u-b-lg l-wrapper--page u-t-md"><div>When <mark data-entity="person">Sebastian Thrun</mark> started working on self-driving cars at <mark data-entity="org">Google</mark> in <mark data-entity="date">2007</mark>, few people outside of the company took him seriously. “I can tell you very senior CEOs of major <mark data-entity="norp">American</mark> car companies would shake my hand and turn away because I wasn’t worth talking to,” said <mark data-entity="gpe">Thrun</mark>, now the co-founder and CEO of online higher education startup Udacity, in an interview with Recode <mark data-entity="date">earlier this week</mark>.<br><br>A little <mark data-entity="date">less than a decade later</mark>, <mark data-entity="cardinal">dozens</mark> of self-driving startups have cropped up while automakers around the world clamor, wallet in hand, to secure their place in the fast-moving world of fully automated transportation.</div></section>
-    </article></div></main></body>
+    <section class="d-content l-wrapper u-b-lg l-wrapper--page u-t-md">
+        <h4>title</h4><div id="vis_title"></div><br></br>
+        <h4>query</h4><div id="vis_query"></div><br></br>
+        <h4>main_claim</h4><div id="vis_main_claim"></div><br></br>
+        <h4>reply</h4><div id="vis_reply"></div><br></br>
+    </section>
+    </article></div>
+    </main>
+</body>
 
 <script src="https://explosion-demos.netlify.app/assets/js/prism.js"></script>
 <script src="https://explosion-demos.netlify.app/assets/js/vue.js"></script>
 <script src="https://explosion-demos.netlify.app/js/displacy-ent.js"></script>
 <script>
 data_svr = "http://localhost:8008/";
-
-function selectAll(ele) {
-
+//<div>When <mark data-entity="person">Sebastian Thrun</mark> started working on self-driving cars at <mark data-entity="org">Google</mark> in <mark data-entity="date">2007</mark>, few people outside of the company took him seriously. “I can tell you very senior CEOs of major <mark data-entity="norp">American</mark> car companies would shake my hand and turn away because I wasn’t worth talking to,” said <mark data-entity="gpe">Thrun</mark>, now the co-founder and CEO of online higher education startup Udacity, in an interview with Recode <mark data-entity="date">earlier this week</mark>.<br><br>A little <mark data-entity="date">less than a decade later</mark>, <mark data-entity="cardinal">dozens</mark> of self-driving startups have cropped up while automakers around the world clamor, wallet in hand, to secure their place in the fast-moving world of fully automated transportation.</div>
+function selectAll(element) {
+    boxes = element.parentNode.parentNode.children;
+    sig = false;
+    for (i = 2; i < boxes.length; i++) {
+        if (boxes[i].children[0].checked == false) {
+            sig = true;
+            break;
+        }
+    }
+    for (i = 1; i < boxes.length; i++)
+        boxes[i].children[0].checked = sig;
 }
 
 // --- global variables
@@ -68,6 +98,36 @@ try {
 catch {
     alert("请先登录！");
     window.location.href = './login.html';
+}
+
+function format(data, anno) {
+    title = data["title"];
+    query = data["query"];
+    main_claim = data["main_claim"];
+    reply = data["reply"];
+
+    document.getElementById("title").innerHTML = title;
+    document.getElementById("query").innerHTML = query;
+    document.getElementById("main_claim").innerHTML = main_claim;
+    document.getElementById("reply").innerHTML = reply;
+
+    for (var key in anno) {
+        list = [];
+        for (i = 0; i < data[key].length+1; i++)
+            list.append("");
+        for (i = 0; i < anno[key].length; i++) {
+            start = anno[key][i][0][0];
+            end = anno[key][i][0][1];
+            type = anno[key][i][1];
+            list[start] = list[start] + "<mark data-entity=\"" + type + "\">";
+            list[end] = list[end] + "</mark>";
+        }
+        s = "";
+        s = s + list[0];
+        for (i = 0; i < data[key].length; i++) {
+            s = s + data[key][i] + list[i];
+        }
+    }
 }
 
 var text = "";

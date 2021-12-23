@@ -1,17 +1,17 @@
-import sys
+import base64
 import cgi
-import os
-import sys
+import codecs
 import io
 import json
-from Crypto import Random
-from Crypto.PublicKey import RSA
-from Crypto.Cipher import PKCS1_v1_5 as PKCS1_cipher
-import base64
-from urllib import parse
+import os
+import sys
 import xml.etree.cElementTree as ET
-from http.server import HTTPServer
-from http.server import BaseHTTPRequestHandler
+from http.server import BaseHTTPRequestHandler, HTTPServer
+from urllib import parse
+
+from Crypto import Random
+from Crypto.Cipher import PKCS1_v1_5 as PKCS1_cipher
+from Crypto.PublicKey import RSA
 
 CORPUS_DIR = "../../resource/corpus"
 USER_LOG_FILE = "../../resource/user.json"
@@ -96,21 +96,19 @@ class GetHandler(BaseHTTPRequestHandler):
 
         return json.dumps({'errcode': errcode, 'errmsg': errmsg})
 
+    def _annotation(self, data):
+        result = []
+        result['title'] = [((0, 6), 'DISEASE')]
+        result['query'] = []
+        result['main_claim'] = []
+        result['reply'] = []
+        return result
+
     def _sample(self, username):
-        # if username not in users:
-        #     errcode = -1
-        #     errmsg = '非法用户'
-        # else:
-        #     text = corpus_sample(username)
-        #     if text == '':
-        #         errcode = -1
-        #         errmsg = '无可用样本'
-        #     else:
-        #         errcode = 0
-        #         errmsg = ''
-        
-        text = "医生您好！我的小腹为什么这么这么疼？我的胃口也不太好？"
-        return json.dumps({'errcode': 0, 'errmsg': '', 'type': 1, 'text': text})
+        f = os.path.join(CORPUS_DIR , '1.txt')
+        data = json.loads(codecs.open(f, encoding='utf-8'))
+        anno = self._annotation(data)
+        return json.dumps({'errcode': 0, 'errmsg': '', 'type': 1, 'data': data, 'anno': anno})
 
     def _parse(self, query):
         result = {}
