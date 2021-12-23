@@ -20,6 +20,7 @@
 </body>
 
 <script>
+data_svr = "http://localhost:8008/";
 
 // --- global variables
 try {
@@ -47,7 +48,7 @@ function getSample() {
     xhr.ontimeout = function(event){
         alert('请求超时！');
     }
-    xhr.open("get", "http://172.17.168.66:8008/?action=1003&username=" + username, true);
+    xhr.open("get", data_svr + "?action=1003&username=" + username, true);
     xhr.send();
     xhr.onreadystatechange = function() {
         if (xhr.readyState == 4 && xhr.status == 200) {

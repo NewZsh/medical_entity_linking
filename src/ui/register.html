@@ -21,6 +21,7 @@
 
 <script>
 // --- global variables
+data_svr = "http://localhost:8008/";
 var username = "";
 var password = "";
 var password_confirm = "";
@@ -34,7 +35,7 @@ xhr.timeout = 5000;
 xhr.ontimeout = function(event){
     alert('请求超时！');
 }
-xhr.open("get", "http://172.17.168.66:8008/?action=1002", true);
+xhr.open("get", data_svr + "?action=1002", true);
 xhr.send();
 xhr.onreadystatechange = function() {
     if (xhr.readyState == 4 && xhr.status == 200) {
@@ -73,7 +74,7 @@ function onRegister() {
     xhr.ontimeout = function(event){
         alert('请求超时！');
     }
-    xhr.open("get", "http://172.17.168.66:8008/?action=1000&username=" + username + "&password=" + password_encrypted);
+    xhr.open("get", data_svr + "/?action=1000&username=" + username + "&password=" + password_encrypted);
     xhr.send();
     xhr.onreadystatechange = function() {
         if (xhr.readyState == 4 && xhr.status == 200) {

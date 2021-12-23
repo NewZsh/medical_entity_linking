@@ -13,6 +13,7 @@ import xml.etree.cElementTree as ET
 from http.server import HTTPServer
 from http.server import BaseHTTPRequestHandler
 
+CORPUS_DIR = "../../resource/corpus"
 USER_LOG_FILE = "../../resource/user.json"
 PUB_KEY_FILE = "../../resource/key/public_key.rsa"
 PRI_KEY_FILE = "../../resource/key/private_key.rsa"
