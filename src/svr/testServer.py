@@ -81,8 +81,9 @@ class GetHandler(BaseHTTPRequestHandler):
         return json.dumps({'errcode': errcode, 'errmsg': errmsg})
 
     def _authorize(self, username, password_encrypted):
-        password = cipher.decrypt(base64.b64decode(password_encrypted), 0)
-        password = password.decode('utf-8')
+        # password = cipher.decrypt(base64.b64decode(password_encrypted), 0)
+        # password = password.decode('utf-8')
+        password = password_encrypted
         if username not in users:
             errcode = -1
             errmsg = '用户不存在'
@@ -128,7 +129,7 @@ class GetHandler(BaseHTTPRequestHandler):
     def do_GET(self):
         parsed_path = parse.urlparse(self.path)
         parsed_result = self._parse(parsed_path.query)
-        # print("GET", parsed_result)
+        print("GET", parsed_result)
 
         if parsed_result is not None:
             self.send_response(200)
