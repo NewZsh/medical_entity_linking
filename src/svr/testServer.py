@@ -13,7 +13,7 @@ import xml.etree.cElementTree as ET
 from http.server import HTTPServer
 from http.server import BaseHTTPRequestHandler
 
-USER_LOG_FILE = "../../resource/user/user.json"
+USER_LOG_FILE = "../../resource/user.json"
 PUB_KEY_FILE = "../../resource/key/public_key.rsa"
 PRI_KEY_FILE = "../../resource/key/private_key.rsa"
 legal_action = {'1000': True,  # register 
