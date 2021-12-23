@@ -97,16 +97,16 @@ class GetHandler(BaseHTTPRequestHandler):
         return json.dumps({'errcode': errcode, 'errmsg': errmsg})
 
     def _annotation(self, data):
-        result = []
-        result['title'] = [((0, 6), 'DISEASE')]
-        result['query'] = []
-        result['main_claim'] = []
+        result = {}
+        result['title'] = [((0, 6), 'DISEASE'), ((7, 11), 'DISEASE')]
+        result['query'] = [((0, 6), 'DISEASE'), ((7, 11), 'DISEASE')]
+        result['main_claim'] = [((8, 12), 'DISEASE'), ((13, 15), 'SYMPTOM')]
         result['reply'] = []
         return result
 
     def _sample(self, username):
         f = os.path.join(CORPUS_DIR , '1.txt')
-        data = json.loads(codecs.open(f, encoding='utf-8'))
+        data = json.loads(codecs.open(f, encoding='utf-8').read().replace('\n', ''))
         anno = self._annotation(data)
         return json.dumps({'errcode': 0, 'errmsg': '', 'type': 1, 'data': data, 'anno': anno})
 

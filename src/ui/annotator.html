@@ -14,6 +14,7 @@
     <div class="l-content"><article data-demo="displacy-ent">
     <header class="d-header d-wrapper l-wrapper">
         <h1 class="u-h3 u-b-sm">Medical Named Entity Visualizer</h1>
+        <div><button style="width: 100px; background: #fff; color: #000" onclick="getSample(this)">start<button></div>
         <div class="u-t-md">
             <div class="d-input d-input--full">
                 <span>title</span><div class="d-input__wrapper">
@@ -21,9 +22,9 @@
                 <span>query</span><div class="d-input__wrapper">
                     <textarea id="query" rows="1" cols="15" placeholder="" onfocus="this.select()" class="d-input__field d-input__field--textarea"></textarea></div>
                 <span>main_claim</span><div class="d-input__wrapper">
-                    <textarea id="title" rows="1" cols="15" placeholder="" onfocus="this.select()" class="d-input__field d-input__field--textarea"></textarea></div>
+                    <textarea id="main_claim" rows="5" cols="15" placeholder="" onfocus="this.select()" class="d-input__field d-input__field--textarea"></textarea></div>
                 <span>reply</span><div class="d-input__wrapper">
-                    <textarea id="title" rows="1" cols="15" placeholder="" onfocus="this.select()" class="d-input__field d-input__field--textarea"></textarea></div>
+                    <textarea id="reply" rows="5" cols="15" placeholder="" onfocus="this.select()" class="d-input__field d-input__field--textarea"></textarea></div>
             <br></br>
             <div><label class="u-b-xs u-block u-h6">Medical Entity labels (<a class="u-a" onclick="selectAll(this)">select all</a>)</label>
                 <label title="疾病" for="disearse" class="d-input__option u-t-xs u-strong" style=""><input type="checkbox" id="disearse" value="disearse" class="d-input__option__box" checked="checked"> <span class="d-input__option__value">DISEASE</span></label>
@@ -76,7 +77,6 @@
 <script src="https://explosion-demos.netlify.app/js/displacy-ent.js"></script>
 <script>
 data_svr = "http://localhost:8008/";
-//<div>When <mark data-entity="person">Sebastian Thrun</mark> started working on self-driving cars at <mark data-entity="org">Google</mark> in <mark data-entity="date">2007</mark>, few people outside of the company took him seriously. “I can tell you very senior CEOs of major <mark data-entity="norp">American</mark> car companies would shake my hand and turn away because I wasn’t worth talking to,” said <mark data-entity="gpe">Thrun</mark>, now the co-founder and CEO of online higher education startup Udacity, in an interview with Recode <mark data-entity="date">earlier this week</mark>.<br><br>A little <mark data-entity="date">less than a decade later</mark>, <mark data-entity="cardinal">dozens</mark> of self-driving startups have cropped up while automakers around the world clamor, wallet in hand, to secure their place in the fast-moving world of fully automated transportation.</div>
 function selectAll(element) {
     boxes = element.parentNode.parentNode.children;
     sig = false;
@@ -114,7 +114,7 @@ function format(data, anno) {
     for (var key in anno) {
         list = [];
         for (i = 0; i < data[key].length+1; i++)
-            list.append("");
+            list.push("");
         for (i = 0; i < anno[key].length; i++) {
             start = anno[key][i][0][0];
             end = anno[key][i][0][1];
@@ -125,22 +125,18 @@ function format(data, anno) {
         s = "";
         s = s + list[0];
         for (i = 0; i < data[key].length; i++) {
-            s = s + data[key][i] + list[i];
+            s = s + data[key][i] + list[i+1];
         }
+        document.getElementById("vis_" + key).innerHTML = s;
     }
 }
 
 var text = "";
 var boundary = [];
 var innerOut = [];
-// --- end of global variables
-if (document.getElementById("sample").innerText == "") {
-    getSample();
-}
 
-/* get sample text from server
- */
-function getSample() {
+function getSample(element) {
+    element.innerHTML = "Submit and Next";
     var xhr = new XMLHttpRequest();
     xhr.timeout = 5000;
     xhr.ontimeout = function(event){
@@ -154,8 +150,7 @@ function getSample() {
             if (response['errcode'] == 0) {
                 // to do: enable multi-turn QA annotation (type=2)
                 if (response['type'] == 1) {
-                    text = response["text"];
-                    document.getElementById("sample").innerText = text;
+                    format(response["data"],  response["anno"])
                 } else {
                     pass;
                 }
