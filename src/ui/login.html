@@ -56,8 +56,6 @@ function register() {
 // 1. Verification Code
 // 2. Enable different type of login and type check: username (check ill-legal chars), mail (check valid mail) or phone (check valid phone number)
 function login() {
-    public_key = public_key.replace("\\n", "").replace("-----BEGIN PUBLIC KEY-----", "").replace("-----END PUBLIC KEY-----", "");
-    
     username = document.getElementById('username').value;
     password = document.getElementById('password').value;
 
@@ -78,7 +76,7 @@ function login() {
     xhr.ontimeout = function(event){
         alert('请求超时！');
     }
-    xhr.open("get", data_svr + "?action=1001&username=" + username + "&password=" + password_encrypted, true);
+    xhr.open("get", data_svr + "?action=1001&username=" + username + "&password=" + password, true);
     xhr.send();
     xhr.onreadystatechange = function() {
         if (xhr.readyState == 4 && xhr.status == 200) {

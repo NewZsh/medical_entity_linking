@@ -1,26 +1,64 @@
 <!DOCTYPE HTML>
 <html>
-<head>
-    <meta charset="UTF-8">  
-    <title>患者主诉实体链接标注系统</title>
-    <link rel="stylesheet" type="text/css" href="css_login.css"/> 
-</head>
+    <head><title>Medical Named Entity Visualizer · Explosion</title>
+        <meta http-equiv="content-type" content="text/html; charset=utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="referrer" content="always">
+        <meta name="google-site-verification" content="g_Q1d9lRu0QfxU40-Y2oU9lZbWcXOkpN62Eb_1mTj94">
+        <link rel="shortcut icon" href="https://explosion-demos.netlify.app/assets/img/favicon.ico">
+        <link rel="alternate" type="application/rss+xml" title="RSS" href="/feed.xml">
+        <link rel="stylesheet" href="https://explosion-demos.netlify.app/assets/css/style.css?v4.0">
+        <link rel="stylesheet" href="https://explosion-demos.netlify.app/assets/css/demos.css?v2.0">
+    </head>
 <body>
-    <center>
-        <!-- to do: read samples from database -->
-        <p id="predix">患者问句：
-        <t id="sample"></t>
-        </p>
-        <button id="submit" >
-            submit
-        </button>
-    </center>
-    <ul name="myForm" id="myForm" onsubmit="return validateForm()">
-    </ul>
-</body>
+    <main class="l-main">
+    <div class="l-content"><article data-demo="displacy-ent">
+    <header class="d-header d-wrapper l-wrapper">
+        <h1 class="u-h3 u-b-sm">Medical Named Entity Visualizer</h1>
+        <div class="u-t-md">
+            <div class="d-input d-input--full">
+                <span>title</span><div class="d-input__wrapper">
+                    <textarea id="title" rows="1" cols="15" placeholder="" onfocus="this.select()" class="d-input__field d-input__field--textarea"></textarea></div>
+                <span>query</span><div class="d-input__wrapper">
+                    <textarea id="query" rows="1" cols="15" placeholder="" onfocus="this.select()" class="d-input__field d-input__field--textarea"></textarea></div>
+                <span>main_claim</span><div class="d-input__wrapper">
+                    <textarea id="title" rows="1" cols="15" placeholder="" onfocus="this.select()" class="d-input__field d-input__field--textarea"></textarea></div>
+                <span>reply</span><div class="d-input__wrapper">
+                    <textarea id="title" rows="1" cols="15" placeholder="" onfocus="this.select()" class="d-input__field d-input__field--textarea"></textarea></div>
+            <br></br>
+            <div><label class="u-b-xs u-block u-h6">Entity labels (<a class="u-a" onclick="selectAll(this)">select all</a>)</label>
+                <label title="People, including fictional." for="person" class="d-input__option u-t-xs u-strong" style=""><input type="checkbox" id="person" value="person" class="d-input__option__box"> <span class="d-input__option__value">PERSON</span></label>
+                <label title="Nationalities or religious or political groups." for="norp" class="d-input__option u-t-xs u-strong" style=""><input type="checkbox" id="norp" value="norp" class="d-input__option__box"> <span class="d-input__option__value">NORP</span></label>
+                <label title="Buildings, airports, highways, bridges, etc." for="facility" class="d-input__option u-t-xs u-strong" style="display: none;"><input type="checkbox" id="facility" value="facility" class="d-input__option__box"> <span class="d-input__option__value">FACILITY</span></label>
+                <label title="Companies, agencies, institutions, etc." for="org" class="d-input__option u-t-xs u-strong" style=""><input type="checkbox" id="org" value="org" class="d-input__option__box"> <span class="d-input__option__value">ORG</span></label>
+                <label title="Countries, cities, states." for="gpe" class="d-input__option u-t-xs u-strong" style=""><input type="checkbox" id="gpe" value="gpe" class="d-input__option__box"> <span class="d-input__option__value">GPE</span></label>
+                <label title="Non-GPE locations, mountain ranges, bodies of water." for="loc" class="d-input__option u-t-xs u-strong" style=""><input type="checkbox" id="loc" value="loc" class="d-input__option__box"> <span class="d-input__option__value">LOC</span></label>
+                <label title="Objects, vehicles, foods, etc. (Not services.)" for="product" class="d-input__option u-t-xs u-strong" style=""><input type="checkbox" id="product" value="product" class="d-input__option__box"> <span class="d-input__option__value">PRODUCT</span></label>
+                <label title="Named hurricanes, battles, wars, sports events, etc." for="event" class="d-input__option u-t-xs u-strong" style=""><input type="checkbox" id="event" value="event" class="d-input__option__box"> <span class="d-input__option__value">EVENT</span></label>
+                <label title="Titles of books, songs, etc." for="work_of_art" class="d-input__option u-t-xs u-strong" style=""><input type="checkbox" id="work_of_art" value="work_of_art" class="d-input__option__box"> <span class="d-input__option__value">WORK OF ART</span></label>
+                <label title="Any named language." for="language" class="d-input__option u-t-xs u-strong" style=""><input type="checkbox" id="language" value="language" class="d-input__option__box"> <span class="d-input__option__value">LANGUAGE</span></label>
+                <label title="Absolute or relative dates or periods." for="date" class="d-input__option u-t-xs u-strong" style=""><input type="checkbox" id="date" value="date" class="d-input__option__box"> <span class="d-input__option__value">DATE</span></label>
+                <label title="Times smaller than a day." for="time" class="d-input__option u-t-xs u-strong" style=""><input type="checkbox" id="time" value="time" class="d-input__option__box"> <span class="d-input__option__value">TIME</span></label>
+                <label title="Percentage, including ”%“." for="percent" class="d-input__option u-t-xs u-strong" style=""><input type="checkbox" id="percent" value="percent" class="d-input__option__box"> <span class="d-input__option__value">PERCENT</span></label>
+                <label title="Monetary values, including unit." for="money" class="d-input__option u-t-xs u-strong" style=""><input type="checkbox" id="money" value="money" class="d-input__option__box"> <span class="d-input__option__value">MONEY</span></label>
+                <label title="Measurements, as of weight or distance." for="quantity" class="d-input__option u-t-xs u-strong" style=""><input type="checkbox" id="quantity" value="quantity" class="d-input__option__box"> <span class="d-input__option__value">QUANTITY</span></label>
+                <label title="“first”, “second”, etc." for="ordinal" class="d-input__option u-t-xs u-strong" style=""><input type="checkbox" id="ordinal" value="ordinal" class="d-input__option__box"> <span class="d-input__option__value">ORDINAL</span></label>
+                <label title="Numerals that do not fall under another type." for="cardinal" class="d-input__option u-t-xs u-strong" style=""><input type="checkbox" id="cardinal" value="cardinal" class="d-input__option__box"> <span class="d-input__option__value">CARDINAL</span></label>
+                <label title="Named documents made into laws." for="law" class="d-input__option u-t-xs u-strong" style=""><input type="checkbox" id="law" value="law" class="d-input__option__box"> <span class="d-input__option__value">LAW</span></label>
+            </div>
+    </header>
+    
+    <section class="d-content l-wrapper u-b-lg l-wrapper--page u-t-md"><div>When <mark data-entity="person">Sebastian Thrun</mark> started working on self-driving cars at <mark data-entity="org">Google</mark> in <mark data-entity="date">2007</mark>, few people outside of the company took him seriously. “I can tell you very senior CEOs of major <mark data-entity="norp">American</mark> car companies would shake my hand and turn away because I wasn’t worth talking to,” said <mark data-entity="gpe">Thrun</mark>, now the co-founder and CEO of online higher education startup Udacity, in an interview with Recode <mark data-entity="date">earlier this week</mark>.<br><br>A little <mark data-entity="date">less than a decade later</mark>, <mark data-entity="cardinal">dozens</mark> of self-driving startups have cropped up while automakers around the world clamor, wallet in hand, to secure their place in the fast-moving world of fully automated transportation.</div></section>
+    </article></div></main></body>
 
+<script src="https://explosion-demos.netlify.app/assets/js/prism.js"></script>
+<script src="https://explosion-demos.netlify.app/assets/js/vue.js"></script>
+<script src="https://explosion-demos.netlify.app/js/displacy-ent.js"></script>
 <script>
 data_svr = "http://localhost:8008/";
+
+function selectAll(ele) {
+
+}
 
 // --- global variables
 try {
