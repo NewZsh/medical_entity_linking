@@ -98,10 +98,39 @@ class GetHandler(BaseHTTPRequestHandler):
 
     def _annotation(self, data):
         result = {}
-        result['title'] = [((0, 6), 'DISEASE'), ((7, 11), 'DISEASE')]
-        result['query'] = [((0, 6), 'DISEASE'), ((7, 11), 'DISEASE')]
-        result['main_claim'] = [((8, 12), 'DISEASE'), ((13, 15), 'SYMPTOM')]
-        result['reply'] = []
+        result['title'] = [
+            ((0, 6), 'disease'), 
+            ((7, 11), 'disease')
+            ]
+        result['query'] = [
+            ((0, 6), 'disease'), 
+            ((7, 11), 'disease')
+            ]
+        result['main_claim'] = [
+            ((8, 12), 'disease'), 
+            ((13, 15), 'ms'),
+            ((16, 18), 'ms'),
+            ((19, 21), 'ms'),
+            ((21, 24), 'date'),
+            ((37, 40), 'ms'),
+            ((51, 57), 'disease')
+            ]
+        result['reply'] = [
+            ((0, 6), 'disease'), 
+            ((7, 11), 'disease'),
+            ((26, 33), 'disease'),
+            ((38, 40), 'organ'),
+            ((56, 58), 'ms'),
+            ((58, 60), 'ms'),
+            ((66, 68), 'ms'),
+            ((75, 76), 'organ'),
+            ((82, 83), 'organ'),
+            ((92, 96), 'disease'),
+            ((97, 99), 'ms'),
+            ((99, 101), 'ms'),
+            ((105, 110), 'ms'),
+            ((115, 119), 'ms')
+            ]
         return result
 
     def _sample(self, username):
@@ -127,7 +156,6 @@ class GetHandler(BaseHTTPRequestHandler):
     def do_GET(self):
         parsed_path = parse.urlparse(self.path)
         parsed_result = self._parse(parsed_path.query)
-        print("GET", parsed_result)
 
         if parsed_result is not None:
             self.send_response(200)
@@ -146,7 +174,6 @@ class GetHandler(BaseHTTPRequestHandler):
                 pass
             else:
                 sRespData = json.dumps({'errcode': -1, 'errmsg': '未定义的操作'})
-            print(sRespData)
             self.wfile.write(sRespData.encode())
         else:
             self.send_response(404)

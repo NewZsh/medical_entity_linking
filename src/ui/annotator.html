@@ -8,28 +8,41 @@
         <link rel="alternate" type="application/rss+xml" title="RSS" href="/feed.xml">
         <link rel="stylesheet" href="https://explosion-demos.netlify.app/assets/css/style.css?v4.0">
         <link rel="stylesheet" href="https://explosion-demos.netlify.app/assets/css/demos.css?v2.0">
+        <style type="text/css">
+            [data-demo="displacy-ent"] [value="disease"]:checked+.d-input__option__value{background:#0bb}
+            [data-demo="displacy-ent"] [value="cs"]:checked+.d-input__option__value{background:#ce0}
+            [data-demo="displacy-ent"] [value="ms"]:checked+.d-input__option__value{background:#ce0}
+            [data-demo="displacy-ent"] [value="dep"]:checked+.d-input__option__value{background:#bb0}
+            [data-demo="displacy-ent"] [value="exam"]:checked+.d-input__option__value{background:#ff0}
+            [data-demo="displacy-ent"] [value="cm"]:checked+.d-input__option__value{background:#aab}
+            [data-demo="displacy-ent"] [value="wm"]:checked+.d-input__option__value{background:#aab}
+            [data-demo="displacy-ent"] [value="organ"]:checked+.d-input__option__value{background:#4f77f4}
+            [data-demo="displacy-ent"] [value="age"]:checked+.d-input__option__value{background:#40ff00}
+            [data-demo="displacy-ent"] [value="sex"]:checked+.d-input__option__value{background:#1100ee}
+            [data-demo="displacy-ent"] [value="cr"]:checked+.d-input__option__value{background:#40cc55}
+        </style>
     </head>
 <body>
     <main class="l-main">
     <div class="l-content"><article data-demo="displacy-ent">
     <header class="d-header d-wrapper l-wrapper">
         <h1 class="u-h3 u-b-sm">Medical Named Entity Visualizer</h1>
-        <div><button style="width: 100px; background: #fff; color: #000" onclick="getSample(this)">start<button></div>
+        <div><button style="width: 150px; background: #fff; color: #000" onclick="getSample(this)">start<button></div><br></br>
         <div class="u-t-md">
             <div class="d-input d-input--full">
-                <span>title</span><div class="d-input__wrapper">
-                    <textarea id="title" rows="1" cols="15" placeholder="" onfocus="this.select()" class="d-input__field d-input__field--textarea"></textarea></div>
-                <span>query</span><div class="d-input__wrapper">
-                    <textarea id="query" rows="1" cols="15" placeholder="" onfocus="this.select()" class="d-input__field d-input__field--textarea"></textarea></div>
-                <span>main_claim</span><div class="d-input__wrapper">
-                    <textarea id="main_claim" rows="5" cols="15" placeholder="" onfocus="this.select()" class="d-input__field d-input__field--textarea"></textarea></div>
-                <span>reply</span><div class="d-input__wrapper">
-                    <textarea id="reply" rows="5" cols="15" placeholder="" onfocus="this.select()" class="d-input__field d-input__field--textarea"></textarea></div>
+                <span style="font-size: 12px">title</span><div class="d-input__wrapper">
+                    <textarea id="title" rows="2" style="font-size: 14px" cols="15" placeholder="" onfocus="this.select()" class="d-input__field d-input__field--textarea"></textarea></div>
+                <span style="font-size: 12px">query</span><div class="d-input__wrapper">
+                    <textarea id="query" rows="2" style="font-size: 14px" cols="15" placeholder="" onfocus="this.select()" class="d-input__field d-input__field--textarea"></textarea></div>
+                <span style="font-size: 12px">main_claim</span><div class="d-input__wrapper">
+                    <textarea id="main_claim" rows="5" style="font-size: 14px" cols="15" placeholder="" onfocus="this.select()" class="d-input__field d-input__field--textarea"></textarea></div>
+                <span style="font-size: 12px">reply</span><div class="d-input__wrapper">
+                    <textarea id="reply" rows="5" style="font-size: 14px" cols="15" placeholder="" onfocus="this.select()" class="d-input__field d-input__field--textarea"></textarea></div>
             <br></br>
             <div><label class="u-b-xs u-block u-h6">Medical Entity labels (<a class="u-a" onclick="selectAll(this)">select all</a>)</label>
-                <label title="疾病" for="disearse" class="d-input__option u-t-xs u-strong" style=""><input type="checkbox" id="disearse" value="disearse" class="d-input__option__box" checked="checked"> <span class="d-input__option__value">DISEASE</span></label>
+                <label title="疾病" for="disease" class="d-input__option u-t-xs u-strong" style=""><input type="checkbox" id="disease" value="disease" class="d-input__option__box" checked="checked"> <span class="d-input__option__value">DISEASE</span></label>
                 <label title="中医描述的症状，如气虚等" for="cs" class="d-input__option u-t-xs u-strong" style=""><input type="checkbox" id="cs" value="cs" class="d-input__option__box" checked="checked"> <span class="d-input__option__value">SYMPTOM(in Chinese medicine)</span></label>
-                <label title="" for="ms" class="d-input__option u-t-xs u-strong" style="display: none;"><input type="checkbox" id="ms" value="ms" class="d-input__option__box" checked="checked"> <span class="d-input__option__value">SYMPTOM(in modern medicine)</span></label>
+                <label title="" for="ms" class="d-input__option u-t-xs u-strong" style=""><input type="checkbox" id="ms" value="ms" class="d-input__option__box" checked="checked"> <span class="d-input__option__value">SYMPTOM(in modern medicine)</span></label>
                 <label title="科室" for="dep" class="d-input__option u-t-xs u-strong" style=""><input type="checkbox" id="dep" value="dep" class="d-input__option__box" checked="checked"> <span class="d-input__option__value">DEPARTMENT</span></label>
                 <label title="检查" for="exam" class="d-input__option u-t-xs u-strong" style=""><input type="checkbox" id="exam" value="exam" class="d-input__option__box" checked="checked"> <span class="d-input__option__value">EXAMINATION</span></label>
                 <label title="中药" for="cm" class="d-input__option u-t-xs u-strong" style=""><input type="checkbox" id="cm" value="cm" class="d-input__option__box" checked="checked"> <span class="d-input__option__value">CHINESE MEDICINE</span></label>
@@ -76,6 +89,20 @@
 <script src="https://explosion-demos.netlify.app/assets/js/vue.js"></script>
 <script src="https://explosion-demos.netlify.app/js/displacy-ent.js"></script>
 <script>
+color = {
+    "disease": "#0bb",
+    "cs": "#ce0",
+    "ms": "#ce0",
+    "dep": "#bb0",
+    "exam": "#ff0",
+    "cm": "#aab",
+    "wm": "#aab",
+    "organ": "#4f77f4",
+    "age": "#40ff00",
+    "sex": "#1100ee",
+    "cr": "#40cc55"
+}
+
 data_svr = "http://localhost:8008/";
 function selectAll(element) {
     boxes = element.parentNode.parentNode.children;
@@ -119,7 +146,7 @@ function format(data, anno) {
             start = anno[key][i][0][0];
             end = anno[key][i][0][1];
             type = anno[key][i][1];
-            list[start] = list[start] + "<mark data-entity=\"" + type + "\">";
+            list[start] = list[start] + "<mark style=\"background: " + color[type] + "\" data-entity=\"" + type + "\">";
             list[end] = list[end] + "</mark>";
         }
         s = "";
